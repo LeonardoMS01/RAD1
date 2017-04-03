@@ -1,0 +1,108 @@
+<html>
+
+    <head>
+
+     
+    </head>
+    <form action="javascript:void(0)" onsubmit="app.adicionar()">
+
+        <input type="text" id="Item" placeholder="Item">
+        <input type="text" id="Valor" placeholder="valor R$">
+        <input type="submit" value="+">
+        <input type="button" value="Somar Itens" onclick="app.somarTodos()">
+        <br>    </br>
+        
+
+
+    </form>
+    <body>
+        <p id="tabela"></p>
+        <table border="1">
+                <tr>
+                
+                </tr>
+                <tbody id="itens">
+
+                </tbody>    
+        </table>
+        <br>    </br>
+        <b> <label id="saida">  </label> </b>
+
+    </body>
+
+
+       <script>
+            
+               var app= new function(){
+                    this.elItens = document.getElementById("itens");
+                    this.itens=[];
+
+                    this.contar = function (qtd){
+                        var elContador = document.getElementById("tabela");
+                        var nome="Item";
+                        if (qtd){
+                            if (qtd>1){
+                                nome="Itens";
+                            }
+                           elContador.innerHTML=qtd + ' '+ nome;
+                            
+                        }else {
+                            elContador.innerHTML='Sem ' + nome;
+                        }
+                    } ;
+                    this.listarTabela = function(){
+                        
+                        var dados = '';
+                        for (i=0;i<this.itens.length;i++){
+                            dados+='<tr>';
+                            dados+='<td>'+this.itens[i].Item+'</td>';
+                            dados+='<td>'+" R$: "+this.itens[i].Valor+'</td>';
+                            dados+='<td><button onclick="app.excluir('+i+')">excluir</button></td>';
+                            dados+='<td><button onclick="app.alterar('+i+')">alterar</button></td>';
+                          
+                            dados+="</tr>";
+                        }
+                        
+                        this.contar(this.itens.length);
+                        
+                        this.elItens.innerHTML= dados;
+                    };
+                
+
+                   this.adicionar=function(){
+
+                        var elItem = document.getElementById("Item");
+                        var elValor = document.getElementById("Valor");
+                        var aux = parseFloat(elValor.value);
+                        var elementos =  {Item:elItem.value,Valor:aux};
+                        this.itens.push(elementos);
+                                 
+                        this.listarTabela();
+                        
+                   }
+
+                   this.excluir= function(indice){
+
+                        this.itens.splice(indice, 1);
+                        this.listarTabela();
+                    }
+
+                    this.alterar = function(indice){
+
+                    }
+
+                    this.somarTodos =function(){
+                        var resul=0;
+                        for(i=0; i<this.itens.length; i++){
+                            resul = resul + this.itens[i].Valor;
+                           
+                        }
+                         var soma = document.getElementById("saida");
+                         soma.innerText ="Valor Total: R$ "+ resul;
+                    }
+            };
+            app.listarTabela();
+        </script>
+
+
+</html>
